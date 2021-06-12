@@ -1,0 +1,6 @@
+authenticated.users=[{"id"\:"350a823e-2084-4747-8be9-0019719266a9","token"\:"16b8fa65-c79b-4d5f-8d34-2e7ddf0ef8ac","userId"\:"lahariteja","email"\:"laharidin93@gmail.com","refreshToken"\:"","baseUrl"\:"https\://anypoint.mulesoft.com/","org"\:{"name"\:"NJC Labs","id"\:"eb566cbb-279c-4a2f-bb62-950b9648e62f","isMaster"\:true}}]
+current.token=16b8fa65-c79b-4d5f-8d34-2e7ddf0ef8ac
+current.user=lahariteja
+eclipse.preferences.version=1
+expiration.time=30
+org.mule.tooling.ui.properties.enable.api.dependencies=true

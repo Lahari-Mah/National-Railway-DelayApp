@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="getIncident" format="json">
+      <types:shape format="weave" example="examples/getIncident.json"><![CDATA[%dw 2.0
+
+type getIncident = {|
+  sys_id: String, 
+  number: String
+|} {"example": "{\\\"sys_id\\\":\\\"9ebaee7575474f39b93\\\",\\\"number\\\":\\\"illum\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="createIncident" format="json">
+      <types:shape format="weave" example="examples/createIncident.json"><![CDATA[%dw 2.0
+
+type createIncident = {|
+  caller_id: String, 
+  comments: String, 
+  short_description: String, 
+  state: String
+|} {"example": "{\\\"caller_id\\\":\\\"fbdgh123\\\",\\\"comments\\\":\\\"DataComments\\\",\\\"short_description\\\":\\\"Issue in Database Connectivity\\\",\\\"state\\\":\\\"stateid\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#4f837ebb-5b26-40b7-92cc-938adaea27f8">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="getIncident"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#52b90a30-9d01-490d-8d51-c50c46c07ea5">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="createIncident"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

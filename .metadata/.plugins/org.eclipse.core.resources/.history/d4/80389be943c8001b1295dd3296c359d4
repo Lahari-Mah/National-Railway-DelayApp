@@ -1,0 +1,14 @@
+http:
+  port: "8080"
+  host: "localhost"
+  protocol: "HTTP"
+  
+
+user:
+  port: "8082"
+
+auth:
+  port: "8081"
+  
+serviceNow:
+  port: "8087"

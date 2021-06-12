@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/schema",
+  "definitions": {
+    "schema": {
+      "items": {
+        "$ref": "#/definitions/CustomerType"
+      },
+      "type": "array"
+    },
+    "CustomerType": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "firstName",
+        "lastName",
+        "emailId",
+        "phoneNo"
+      ],
+      "properties": {
+        "customerId": {
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "phoneNo": {
+          "type": "string"
+        },
+        "statusTypeId": {
+          "type": "integer"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "lastUpdatedDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "lastUpdatedBy": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/servicenow http://www.mulesoft.org/schema/mule/servicenow/current/mule-servicenow.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<servicenow:config name="ServiceNow_Config" doc:name="ServiceNow Config" doc:id="2ba5148c-ce56-4f76-bcf5-b0be1a9424c7" >
+		<servicenow:basic-connection username="admin" password="${secure::serviceNow.password}" serviceAddress="https://dev99648.service-now.com" >
+			<servicenow:transport >
+				<servicenow:basic-auth-http-message-dispatcher-provider username="admin" password="Powsx5JsRSX2" />
+			</servicenow:transport>
+		</servicenow:basic-connection>
+	</servicenow:config>
+	<json-logger:config name="JSON_Logger_Config" doc:name="JSON Logger Config" doc:id="b7517a05-ded4-4c80-814e-aa5197413da2" environment="${mule.env}" />
+	<configuration-properties doc:name="Configuration properties" doc:id="97d36ba7-6d9a-4d9e-b1be-6413569821a4" file="log.properties" />
+	<http:listener-config name="ServiceNow_Listener_config" doc:name="HTTP Listener config" doc:id="18ad4c4d-fd3a-49e0-81f9-3967fc798199" >
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="f6a4c0b7-9229-4040-bef9-4cd57510b2ee" file="config.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="64091e39-1a06-49b6-90bb-611d7f095e73" file="config.yaml" key="serviceKey" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<error-handler name="globalError_Handler" doc:id="3a6a9c37-42d8-4a27-9750-8bc151346f6c" >
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="5a624120-be70-4a19-9a67-343ae4126af3" type="ANY">
+			<ee:transform doc:name="ErrorPayload" doc:id="ef30fe6d-4762-4991-a295-2c54bd33723c" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Error Type": error.errorType.identifier,
+	"Error Message": error.errorMessage.payload,
+	"Error Description": error.detailedDescription
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<json-logger:logger doc:name="Global_ServiceNowErrorLogger" doc:id="ec8f5b1e-47c7-4943-b55a-c2fffa6d2d11" config-ref="JSON_Logger_Config" message="Global_ServiceNow Error Logs" priority="ERROR"/>
+		</on-error-continue>
+	</error-handler>
+</mule>

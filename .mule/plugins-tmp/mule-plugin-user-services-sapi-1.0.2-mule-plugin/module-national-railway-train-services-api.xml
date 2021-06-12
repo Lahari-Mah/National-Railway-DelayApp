@@ -1,0 +1,854 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="National Railway Train Services API"
+        prefix="national-railway-train-services-api"
+        namespace="http://www.mulesoft.org/schema/mule/national-railway-train-services-api"
+        
+        xmlns="http://www.mulesoft.org/schema/mule/module"
+        xmlns:mule="http://www.mulesoft.org/schema/mule/core"
+        xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+        xmlns:http="http://www.mulesoft.org/schema/mule/http"
+        
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+           http://www.mulesoft.org/schema/mule/module http://www.mulesoft.org/schema/mule/module/current/mule-module.xsd
+           http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+           
+           http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+
+    <property name="property_host" displayName="host" type="string"  summary="Host for consuming API"/>
+    <property name="property_port" displayName="port" type="string"  summary="Port for consuming API"/>
+    <property name="property_basePath" displayName="basePath" type="string" defaultValue="/" summary="Basepath for consuming API"/>
+    <property name="property_protocol" displayName="protocol" type="string"  summary="Protocol for consuming API"/>
+
+        <property name="property_proxyConfig" displayName="Proxy Config Reference" type="string" use="OPTIONAL" summary="Proxy config reference" tab="Proxy"/>
+        <property name="property_responseTimeout" displayName="Response timeout" type="string" defaultValue="10000" summary="Maximum time in milliseconds that the request element will block the execution of the flow waiting for the HTTP response."/>
+
+    
+    
+
+    <http:request-config
+name="national-railway-train-services-api-httpreq-config" xmlns:connection="true"
+responseTimeout="#[vars.property_responseTimeout]"
+basePath="#[vars.property_basePath]">
+<http:request-connection
+host="#[vars.property_host]"
+protocol="#[vars.property_protocol]"
+port="#[vars.property_port]"
+proxyConfig="#[vars.property_proxyConfig]"
+>
+</http:request-connection>
+</http:request-config>
+
+
+
+
+    <operation name="get-customers"  >
+        <parameters>
+                                                <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers"
+              method="GET"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+        
+            <http:headers>
+            <![CDATA[#[ { 'Accept': 'application/json' } filterObject $ != null ]]]>
+        </http:headers>
+            </http:request>
+    <mule:set-payload value="#[payload]" mimeType="application/json" />
+        </body>
+                    <output type="get-customers-response-type" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+    <operation name="create-customer"  >
+        <parameters>
+                            <parameter name="create-customer-request-data" type="create-customer-request-type" use="REQUIRED" role="PRIMARY" />
+                                                <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers"
+              method="POST"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+                <http:body>
+            <![CDATA[#[output application/json --- vars['create-customer-request-data']]
+]]>
+        </http:body>
+    
+            <http:headers>
+            <![CDATA[#[ { 'Accept': 'application/json' } filterObject $ != null ]]]>
+        </http:headers>
+            </http:request>
+    <mule:set-payload value="#[payload]" mimeType="application/json" />
+        </body>
+                    <output type="string" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+    <operation name="get-customer-by-id"  >
+        <parameters>
+                                        <parameter name="id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-secret"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                                    <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers/{id}"
+              method="GET"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+        
+            <http:headers>
+            <![CDATA[#[ ( { 'Accept': 'application/json' } ++ { 'client_id': vars['client-id'] } ++ { 'client_secret': vars['client-secret'] } ) filterObject $ != null ]]]>
+        </http:headers>
+                <http:uri-params>
+            <![CDATA[#[ { 'id': vars['id'] } filterObject $ != null ]]]>
+        </http:uri-params>
+        </http:request>
+    <mule:set-payload value="#[payload]" mimeType="application/json" />
+        </body>
+                    <output type="string" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+    <operation name="update-customer-by-id"  >
+        <parameters>
+                            <parameter name="update-customer-by-id-request-data" type="string" use="REQUIRED" role="PRIMARY" />
+                                        <parameter name="id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-secret"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                                    <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers/{id}"
+              method="PATCH"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+                <http:body>
+            <![CDATA[#[output application/json --- vars['update-customer-by-id-request-data']]
+]]>
+        </http:body>
+    
+            <http:headers>
+            <![CDATA[#[ ( { 'client_id': vars['client-id'] } ++ { 'client_secret': vars['client-secret'] } ) filterObject $ != null ]]]>
+        </http:headers>
+                <http:uri-params>
+            <![CDATA[#[ { 'id': vars['id'] } filterObject $ != null ]]]>
+        </http:uri-params>
+        </http:request>
+        </body>
+                    <output type="any" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+    <operation name="get-subscriptions-by-id"  >
+        <parameters>
+                                        <parameter name="id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-secret"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                                    <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers/{id}/subscriptions"
+              method="GET"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+        
+            <http:headers>
+            <![CDATA[#[ ( { 'Accept': 'application/json' } ++ { 'client_id': vars['client-id'] } ++ { 'client_secret': vars['client-secret'] } ) filterObject $ != null ]]]>
+        </http:headers>
+                <http:uri-params>
+            <![CDATA[#[ { 'id': vars['id'] } filterObject $ != null ]]]>
+        </http:uri-params>
+        </http:request>
+    <mule:set-payload value="#[payload]" mimeType="application/json" />
+        </body>
+                    <output type="get-subscriptions-by-id-response-type" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+    <operation name="create-subscription-by-id"  >
+        <parameters>
+                            <parameter name="create-subscription-by-id-request-data" type="create-subscription-by-id-request-type" use="REQUIRED" role="PRIMARY" />
+                                        <parameter name="id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-secret"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                                    <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers/{id}/subscriptions"
+              method="POST"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+                <http:body>
+            <![CDATA[#[output application/json --- vars['create-subscription-by-id-request-data']]
+]]>
+        </http:body>
+    
+            <http:headers>
+            <![CDATA[#[ ( { 'Accept': 'application/json' } ++ { 'client_id': vars['client-id'] } ++ { 'client_secret': vars['client-secret'] } ) filterObject $ != null ]]]>
+        </http:headers>
+                <http:uri-params>
+            <![CDATA[#[ { 'id': vars['id'] } filterObject $ != null ]]]>
+        </http:uri-params>
+        </http:request>
+    <mule:set-payload value="#[payload]" mimeType="application/json" />
+        </body>
+                    <output type="string" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+    <operation name="get-subscription-by-id-subscription-id"  >
+        <parameters>
+                                        <parameter name="id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="subscription-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-secret"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                                    <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers/{id}/subscriptions/{subscriptionId}"
+              method="GET"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+        
+            <http:headers>
+            <![CDATA[#[ ( { 'Accept': 'application/json' } ++ { 'client_id': vars['client-id'] } ++ { 'client_secret': vars['client-secret'] } ) filterObject $ != null ]]]>
+        </http:headers>
+                <http:uri-params>
+            <![CDATA[#[ ( { 'id': vars['id'] } ++ { 'subscriptionId': vars['subscription-id'] } ) filterObject $ != null ]]]>
+        </http:uri-params>
+        </http:request>
+    <mule:set-payload value="#[payload]" mimeType="application/json" />
+        </body>
+                    <output type="string" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+    <operation name="update-subscription-by-id-subscription-id"  >
+        <parameters>
+                            <parameter name="update-subscription-by-id-subscription-id-request-data" type="string" use="REQUIRED" role="PRIMARY" />
+                                        <parameter name="id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="subscription-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-secret"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                                    <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers/{id}/subscriptions/{subscriptionId}"
+              method="PATCH"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+                <http:body>
+            <![CDATA[#[output application/json --- vars['update-subscription-by-id-subscription-id-request-data']]
+]]>
+        </http:body>
+    
+            <http:headers>
+            <![CDATA[#[ ( { 'client_id': vars['client-id'] } ++ { 'client_secret': vars['client-secret'] } ) filterObject $ != null ]]]>
+        </http:headers>
+                <http:uri-params>
+            <![CDATA[#[ ( { 'id': vars['id'] } ++ { 'subscriptionId': vars['subscription-id'] } ) filterObject $ != null ]]]>
+        </http:uri-params>
+        </http:request>
+        </body>
+                    <output type="any" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+    <operation name="get-alerts-by-id-subscription-id"  >
+        <parameters>
+                                        <parameter name="id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="subscription-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-secret"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                                    <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers/{id}/subscriptions/{subscriptionId}/alerts"
+              method="GET"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+        
+            <http:headers>
+            <![CDATA[#[ ( { 'Accept': 'application/json' } ++ { 'client_id': vars['client-id'] } ++ { 'client_secret': vars['client-secret'] } ) filterObject $ != null ]]]>
+        </http:headers>
+                <http:uri-params>
+            <![CDATA[#[ ( { 'id': vars['id'] } ++ { 'subscriptionId': vars['subscription-id'] } ) filterObject $ != null ]]]>
+        </http:uri-params>
+        </http:request>
+    <mule:set-payload value="#[payload]" mimeType="application/json" />
+        </body>
+                    <output type="get-alerts-by-id-subscription-id-response-type" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+    <operation name="create-alert-by-id-subscription-id"  >
+        <parameters>
+                            <parameter name="create-alert-by-id-subscription-id-request-data" type="create-alert-by-id-subscription-id-request-type" use="REQUIRED" role="PRIMARY" />
+                                        <parameter name="id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="subscription-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-secret"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                                    <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers/{id}/subscriptions/{subscriptionId}/alerts"
+              method="POST"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+                <http:body>
+            <![CDATA[#[output application/json --- vars['create-alert-by-id-subscription-id-request-data']]
+]]>
+        </http:body>
+    
+            <http:headers>
+            <![CDATA[#[ ( { 'Accept': 'application/json' } ++ { 'client_id': vars['client-id'] } ++ { 'client_secret': vars['client-secret'] } ) filterObject $ != null ]]]>
+        </http:headers>
+                <http:uri-params>
+            <![CDATA[#[ ( { 'id': vars['id'] } ++ { 'subscriptionId': vars['subscription-id'] } ) filterObject $ != null ]]]>
+        </http:uri-params>
+        </http:request>
+    <mule:set-payload value="#[payload]" mimeType="application/json" />
+        </body>
+                    <output type="string" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+    <operation name="get-alert-by-id-subscription-id-alert-id"  >
+        <parameters>
+                                        <parameter name="id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="subscription-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="alert-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-secret"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                                    <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers/{id}/subscriptions/{subscriptionId}/alerts/{alertId}"
+              method="GET"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+        
+            <http:headers>
+            <![CDATA[#[ ( { 'Accept': 'application/json' } ++ { 'client_id': vars['client-id'] } ++ { 'client_secret': vars['client-secret'] } ) filterObject $ != null ]]]>
+        </http:headers>
+                <http:uri-params>
+            <![CDATA[#[ ( { 'id': vars['id'] } ++ { 'subscriptionId': vars['subscription-id'] } ++ { 'alertId': vars['alert-id'] } ) filterObject $ != null ]]]>
+        </http:uri-params>
+        </http:request>
+    <mule:set-payload value="#[payload]" mimeType="application/json" />
+        </body>
+                    <output type="string" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+    <operation name="update-alert-by-id-subscription-id-alert-id"  >
+        <parameters>
+                            <parameter name="update-alert-by-id-subscription-id-alert-id-request-data" type="string" use="REQUIRED" role="PRIMARY" />
+                                        <parameter name="id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="subscription-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="alert-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-id"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                            <parameter name="client-secret"
+                                        type="string"
+                                        use="REQUIRED"                    />
+                                    <parameter name="request-streaming-mode" displayName="Request streaming mode" type="request-streaming-mode-enum" use="OPTIONAL" tab="Advanced" />
+        </parameters>
+        <body>
+                <http:request config-ref="national-railway-train-services-api-httpreq-config"
+              path="/customers/{id}/subscriptions/{subscriptionId}/alerts/{alertId}"
+              method="PATCH"
+              requestStreamingMode='#[vars["request-streaming-mode"]]'
+>
+                <mule:error-mapping sourceType="HTTP:PARSING" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:PARSING" />
+            <mule:error-mapping sourceType="HTTP:TIMEOUT" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TIMEOUT" />
+            <mule:error-mapping sourceType="HTTP:SECURITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SECURITY" />
+            <mule:error-mapping sourceType="HTTP:CONNECTIVITY" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:CONNECTIVITY" />
+            <mule:error-mapping sourceType="HTTP:BAD_REQUEST" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:BAD_REQUEST" />
+            <mule:error-mapping sourceType="HTTP:UNAUTHORIZED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNAUTHORIZED" />
+            <mule:error-mapping sourceType="HTTP:FORBIDDEN" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:FORBIDDEN" />
+            <mule:error-mapping sourceType="HTTP:METHOD_NOT_ALLOWED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:METHOD_NOT_ALLOWED" />
+            <mule:error-mapping sourceType="HTTP:NOT_FOUND" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_FOUND" />
+            <mule:error-mapping sourceType="HTTP:NOT_ACCEPTABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:NOT_ACCEPTABLE" />
+            <mule:error-mapping sourceType="HTTP:UNSUPPORTED_MEDIA_TYPE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:UNSUPPORTED_MEDIA_TYPE" />
+            <mule:error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:TOO_MANY_REQUESTS" />
+            <mule:error-mapping sourceType="HTTP:INTERNAL_SERVER_ERROR" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:INTERNAL_SERVER_ERROR" />
+            <mule:error-mapping sourceType="HTTP:SERVICE_UNAVAILABLE" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:SERVICE_UNAVAILABLE" />
+            <mule:error-mapping sourceType="HTTP:RETRY_EXHAUSTED" targetType="NATIONAL-RAILWAY-TRAIN-SERVICES-API:RETRY_EXHAUSTED" />
+                <http:body>
+            <![CDATA[#[output application/json --- vars['update-alert-by-id-subscription-id-alert-id-request-data']]
+]]>
+        </http:body>
+    
+            <http:headers>
+            <![CDATA[#[ ( { 'client_id': vars['client-id'] } ++ { 'client_secret': vars['client-secret'] } ) filterObject $ != null ]]]>
+        </http:headers>
+                <http:uri-params>
+            <![CDATA[#[ ( { 'id': vars['id'] } ++ { 'subscriptionId': vars['subscription-id'] } ++ { 'alertId': vars['alert-id'] } ) filterObject $ != null ]]]>
+        </http:uri-params>
+        </http:request>
+        </body>
+                    <output type="any" />
+                <output-attributes type="java::org.mule.extension.http.api.HttpResponseAttributes" />
+
+        <errors>
+                            <error type="PARSING"/>
+                            <error type="TIMEOUT"/>
+                            <error type="SECURITY"/>
+                            <error type="CONNECTIVITY"/>
+                            <error type="BAD_REQUEST"/>
+                            <error type="UNAUTHORIZED"/>
+                            <error type="FORBIDDEN"/>
+                            <error type="METHOD_NOT_ALLOWED"/>
+                            <error type="NOT_FOUND"/>
+                            <error type="NOT_ACCEPTABLE"/>
+                            <error type="UNSUPPORTED_MEDIA_TYPE"/>
+                            <error type="TOO_MANY_REQUESTS"/>
+                            <error type="INTERNAL_SERVER_ERROR"/>
+                            <error type="SERVICE_UNAVAILABLE"/>
+                            <error type="RETRY_EXHAUSTED"/>
+                    </errors>
+    </operation>
+
+</module>

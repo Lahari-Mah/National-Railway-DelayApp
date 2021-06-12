@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/schema",
+  "definitions": {
+    "schema": {
+      "items": {
+        "$ref": "#/definitions/SubscriptionType"
+      },
+      "type": "array"
+    },
+    "SubscriptionType": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "customerId",
+        "locationName",
+        "crsCode",
+        "serviceId",
+        "fromTime",
+        "fromStation",
+        "toStation",
+        "toTime",
+        "startDate",
+        "serviceType",
+        "alertService"
+      ],
+      "properties": {
+        "subscriptionId": {
+          "type": "integer"
+        },
+        "customerId": {
+          "type": "integer"
+        },
+        "locationName": {
+          "type": "string"
+        },
+        "crsCode": {
+          "type": "string"
+        },
+        "serviceId": {
+          "type": "string"
+        },
+        "fromTime": {
+          "type": "string",
+          "format": "time"
+        },
+        "fromStation": {
+          "type": "string"
+        },
+        "toStation": {
+          "type": "string"
+        },
+        "toTime": {
+          "type": "string",
+          "format": "time"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "serviceType": {
+          "type": "string"
+        },
+        "route": {
+          "type": "string"
+        },
+        "advanceNotifyTime": {
+          "type": "integer"
+        },
+        "alertService": {
+          "type": "string"
+        },
+        "delayStatus": {
+          "type": "string"
+        },
+        "statusTypeId": {
+          "type": "integer"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "lastUpdatedDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "lastUpdatedBy": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

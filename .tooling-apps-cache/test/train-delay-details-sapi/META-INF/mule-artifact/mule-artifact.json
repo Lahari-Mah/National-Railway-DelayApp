@@ -1,0 +1,65 @@
+{
+  "configs": [
+    "global.xml",
+    "train-delay-implementation.xml",
+    "train-delay-implementation-test-suite.xml",
+    "train-delay-details-sapi.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:train-delay-details-sapi:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.3.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedResources": [
+        "db.yaml",
+        "log4j2.xml",
+        "global.xml",
+        "train-delay-details-sapi.xml",
+        "application-types.xml",
+        "config.yaml",
+        "schemas/TrainDelaySoap.xsd.xml",
+        "train-delay-implementation.xml",
+        "examples/trainCancellationHTML.template",
+        "examples/customerIdType.json",
+        "examples/trainDelayDetails.template",
+        "examples/variable-1.json",
+        "examples/subscriptionType.json",
+        "examples/createIncident.json",
+        "examples/alertType.json",
+        "examples/variable.json",
+        "examples/subscriptionType-1.json",
+        "examples/soapurl-1.json",
+        "examples/soapurl.json",
+        "examples/alertTableStyle.css",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-trait/1.0.2/customer-trait.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/DelayServicesType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/CustomerIdType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/CustomerAuthDetailsType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/SubscriptionType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/AlertIdType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/UserUpdateType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/SubscriptionIdType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/CustomerAuthType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/AlertsType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/CustomerType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/PasswordType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/customer-library.raml",
+        "api/train-delay-details-sapi.raml",
+        "api/Examples/delayExample.raml",
+        "log.properties",
+        "log4j2-test.xml",
+        "sample_data/design-info.json",
+        "sample_data/json.json"
+      ],
+      "includeTestDependencies": "true",
+      "exportedPackages": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

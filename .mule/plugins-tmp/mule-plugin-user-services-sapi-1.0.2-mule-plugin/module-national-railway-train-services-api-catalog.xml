@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalogs xmlns="http://www.mulesoft.org/schema/mule/types" >
+
+            
+            <catalog name="get-customers-response-type" format="application/json">
+        <schema format="application/json+schema" location="./get-customers-response-data-schema.json" />
+    </catalog>
+        
+                        <catalog name="create-customer-request-type" format="application/json">
+        <schema format="application/json+schema" location="./create-customer-request-data-schema.json" />
+    </catalog>
+        
+        
+                    
+        
+                    
+        
+                    
+            <catalog name="get-subscriptions-by-id-response-type" format="application/json">
+        <schema format="application/json+schema" location="./get-subscriptions-by-id-response-data-schema.json" />
+    </catalog>
+        
+                        <catalog name="create-subscription-by-id-request-type" format="application/json">
+        <schema format="application/json+schema" location="./create-subscription-by-id-request-data-schema.json" />
+    </catalog>
+        
+        
+                    
+        
+                    
+        
+                    
+            <catalog name="get-alerts-by-id-subscription-id-response-type" format="application/json">
+        <schema format="application/json+schema" location="./get-alerts-by-id-subscription-id-response-data-schema.json" />
+    </catalog>
+        
+                        <catalog name="create-alert-by-id-subscription-id-request-type" format="application/json">
+        <schema format="application/json+schema" location="./create-alert-by-id-subscription-id-request-data-schema.json" />
+    </catalog>
+        
+        
+                    
+        
+                    
+        
+            
+    
+    <catalog name="request-streaming-mode-enum" format="application/json">
+        <schema format="application/json+schema" location="./request-streaming-mode-enum.json" />
+    </catalog>
+
+    <catalog name="java" format="application/java">
+            <schema format="application/classloader"/>
+    </catalog>
+
+</catalogs>

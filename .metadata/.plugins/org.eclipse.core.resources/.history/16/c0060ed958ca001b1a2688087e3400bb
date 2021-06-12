@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="user-train-delay-implementation-test-suite.xml" />
+	<munit:test name="EAPI-user-RegistrationFlowTest" doc:id="72a43da0-83ec-4e99-a224-d7ccd9703d4e" description="Test" timeOut="12000000">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when-UserAuth" doc:id="395b4fa0-bd75-4ad9-915d-eb51f5341d81" processor="user-authorisation-sapi:create-create">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="db825b40-9c62-4397-bc97-e8bc0ea498b9" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[&#10;output application/json&#10;---&#10;{&#10;  "firstName": "UserE2",&#10;  "lastName": "UserE2Last",&#10;  "emailId": "UserE2@gmail.com",&#10;  "phoneNo": "8765402599",&#10;  "password": "12345678!20",&#10;  "recoveryQuestion": "Mothers maiden name",&#10;  "recoveryAnswer": "Jalladi"&#10;}&#10;]' mediaType="application/json" />
+					<munit-tools:variables >
+						<munit-tools:variable key="authPayload" value="#[ output application/json --- {id: '123'}  ]" mediaType="application/json" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when-CustDBReg" doc:id="66ae2453-94b7-454e-b99e-d8961778b38b" processor="national-railway-train-services-api:create-customer">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="728b494b-8a55-4286-9f2a-ec1bdea8afcf" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[&#10;output application/json&#10;---&#10;{&#10;"Message": "Successfully Inserted"&#10;}&#10;]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="user-EAPICustomerReg-setEvent" doc:id="e03b3cca-0942-472e-9e0f-f4a62d7359e8" name="user-EAPICustomerReg-setEvent"/>
+			<flow-ref doc:name="Flow-ref to user-RegistrationFlow" doc:id="be4f4c81-631c-4ccd-8361-c45683fb4819" name="user-RegistrationFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="NotNull" doc:id="400d5468-ecba-4e1d-824b-e737869e7f25" expression="#[payload]" is="#[MunitTools::notNullValue()]" message="Payload is empty"/>
+		</munit:validation>
+	</munit:test>
+	<flow name="user-EAPICustomerReg-setEvent" doc:id="bb1b7704-18f7-472f-80fb-80bd31eb3ddb" >
+		<munit:set-event doc:name="CustRego" doc:id="8b3b36a0-fd9f-47c4-8345-9e6b070c7807" >
+			<munit:payload value='#[&#10;output application/json&#10;---&#10;{&#10;  "firstName": "UserE2",&#10;  "lastName": "UserE2Last",&#10;  "emailId": "UserE2@gmail.com",&#10;  "phoneNo": "8765402599",&#10;  "password": "12345678!20",&#10;  "recoveryQuestion": "Mothers maiden name",&#10;  "recoveryAnswer": "Jalladi"&#10;}&#10;]' />
+		</munit:set-event>
+	</flow>
+	<munit:test name="user-train-delay-implementation-test-suite-user-train-delay-AuthenticationFlowTest" doc:id="8061ad56-1bbb-4d9b-a6d3-a7fffe175e62" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to user-train-delay-AuthenticationFlow" doc:id="d3f6a3ce-50cf-4f58-a565-02edf0ad3e52" name="user-train-delay-AuthenticationFlow"/>
+		</munit:execution>
+	</munit:test>
+
+</mule>

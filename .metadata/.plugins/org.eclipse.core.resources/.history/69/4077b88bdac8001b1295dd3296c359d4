@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:train-delay-details-sapi="http://www.mulesoft.org/schema/mule/train-delay-details-sapi"
+	xmlns:user-authorisation-sapi="http://www.mulesoft.org/schema/mule/user-authorisation-sapi" xmlns:nationalrailway-servicenow-sapi="http://www.mulesoft.org/schema/mule/nationalrailway-servicenow-sapi" xmlns:national-railway-train-services-api="http://www.mulesoft.org/schema/mule/national-railway-train-services-api" xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/national-railway-train-services-api http://www.mulesoft.org/schema/mule/national-railway-train-services-api/current/mule-national-railway-train-services-api.xsd
+http://www.mulesoft.org/schema/mule/nationalrailway-servicenow-sapi http://www.mulesoft.org/schema/mule/nationalrailway-servicenow-sapi/current/mule-nationalrailway-servicenow-sapi.xsd
+http://www.mulesoft.org/schema/mule/user-authorisation-sapi http://www.mulesoft.org/schema/mule/user-authorisation-sapi/current/mule-user-authorisation-sapi.xsd
+http://www.mulesoft.org/schema/mule/train-delay-details-sapi http://www.mulesoft.org/schema/mule/train-delay-details-sapi/current/mule-train-delay-details-sapi.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<json-logger:config name="JSON_Logger_Config" doc:name="JSON Logger Config" doc:id="65b90d12-6dd6-4a64-b530-1c9edb70303e" environment="${mule.env}" />
+	<national-railway-train-services-api:config name="National_Railway_Train_Services_API_Config" doc:name="National Railway Train Services API Config" doc:id="e85cbfe8-07f3-456d-8484-25e841d85f65" property_host="${http.host}" property_port="${user.port}" property_protocol="${http.protocol}" property_basePath="/api" property_responseTimeout="3000000" />
+	<nationalrailway-servicenow-sapi:config name="Nationalrailway_servicenow_sapi_Config" doc:name="Nationalrailway-servicenow-sapi Config" doc:id="3d9974e4-f05d-49c7-bb04-8d748fd7c1c5" property_host="${http.host}" property_port="${serviceNow.port}" property_protocol="${http.protocol}" property_basePath="/api" property_responseTimeout="300000" />
+	<user-authorisation-sapi:config name="User_Authorisation_SAPI_Config" doc:name="User Authorisation SAPI Config" doc:id="4dd9eff3-a9cb-40f8-a27f-742dd13e3664" property_host="${http.host}" property_port="${auth.port}" property_protocol="${http.protocol}" property_basePath="/api" />
+	<configuration-properties doc:name="Configuration properties" doc:id="39009a0e-85dd-4151-abc4-f2554ccdacb6" file="config.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="c11b30f6-6842-46aa-9fd4-ef4967e671a9" file="log.properties" />
+	<train-delay-details-sapi:config name="Train_delay_details_sapi_Config" doc:name="Train-delay-details-sapi Config" doc:id="5e5ef266-06e2-4f94-8a19-a763aa387e5c" property_host="${http.host}" property_protocol="${http.protocol}" property_port="${delay.port}"/>
+	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="e03270cb-27b0-4902-8f72-296d2d0a9962" />
+	<http:listener-config name="EAPI_HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="11bf95ff-eeca-4258-b023-655e92dd1a4a" >
+		<http:listener-connection host="0.0.0.0" port="8088" />
+	</http:listener-config>
+</mule>

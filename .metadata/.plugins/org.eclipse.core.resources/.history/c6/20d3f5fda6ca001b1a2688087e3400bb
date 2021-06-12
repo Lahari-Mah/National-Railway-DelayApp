@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="train-delay-implementation-test-suite.xml" />
+	<munit:test name="train-delay-implementation-test-suite-trainDelay-crsDetailsTest" doc:id="e81d364d-cbc2-47ac-9911-cc93bd068494" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to trainDelay-crsDetails" doc:id="341f7941-b704-440f-8c26-55ee2f002379" name="trainDelay-crsDetails"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="train-delay-implementation-test-suite-train-delay-soapRetrievalFlowTest" doc:id="18591bfc-f4eb-4b1a-83bc-6a1dd4df513e" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to train-delay-soapRetrievalFlow" doc:id="d90a68cc-b249-4733-b144-1bdb86f2d985" name="train-delay-soapRetrievalFlow"/>
+		</munit:execution>
+	</munit:test>
+
+</mule>

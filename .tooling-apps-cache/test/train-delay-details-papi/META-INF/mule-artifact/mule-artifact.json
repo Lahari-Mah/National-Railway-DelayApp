@@ -1,0 +1,44 @@
+{
+  "configs": [
+    "global.xml",
+    "alertConnector-implementation.xml",
+    "train-delay-details-papi-test-suite.xml",
+    "train-delay-details-papi.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:train-delay-details-papi:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.3.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedResources": [
+        "log4j2.xml",
+        "global.xml",
+        "application-types.xml",
+        "config.yaml",
+        "examples/trainCancellationHTML.template",
+        "examples/customerIdType.json",
+        "examples/trainDelayHTML.html",
+        "examples/subscriptionType.json",
+        "examples/createIncident.json",
+        "examples/alertType.json",
+        "examples/.~lock.trainCancellationHTML.template#",
+        "examples/subscriptionType-1.json",
+        "examples/soapurl-1.json",
+        "examples/soapurl.json",
+        "alertConnector-implementation.xml",
+        "log.properties",
+        "train-delay-details-papi.xml",
+        "log4j2-test.xml"
+      ],
+      "includeTestDependencies": "true",
+      "exportedPackages": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

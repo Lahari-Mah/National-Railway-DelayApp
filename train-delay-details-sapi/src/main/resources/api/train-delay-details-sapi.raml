@@ -1,0 +1,68 @@
+#%RAML 1.0
+title: train-delay-details-sapi
+
+uses:
+  custlib: /exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/customer-library.raml
+
+traits:
+  client-id-required: !include /exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-trait/1.0.2/customer-trait.raml
+
+/delay:
+  post:
+    description: Consuming Soap URI
+    body:
+      application/json:
+        type: custlib.SubscriptionType
+        examples:
+          message: Payload data been passed
+    responses:
+      200:
+        body:
+          application/json:
+            type: custlib.DelayServicesType[]
+            examples:
+              output: !include /Examples/delayExample.raml
+      400:
+        body:
+          application/json:
+            example:
+              message: Error in passing data
+  /subscription:
+    get:
+      description: Retrieving Customer Subscription details
+      responses:
+        200:
+          body:
+            application/json:
+              type: custlib.SubscriptionIdType
+              example:
+                description: Success Message
+                message: CRS codes have been retrieved successfully
+        400:
+          body:
+            application/json:
+              example:
+                description: Error Message
+                message: Error in retrieving details
+  /email:
+    /{emailId}:
+      post:
+        description: Email Notification sent to Customers
+        body:
+          application/json:
+            type: custlib.SubscriptionType
+            examples:
+              message: Payload data been passed
+        responses:
+          200:
+            body:
+              application/json:
+                example:
+                  description: Success Message
+                  message: Email been sent successfully
+          400:
+            body:
+              application/json:
+                example:
+                  description: Error Message
+                  message: Error in sending an email to the customers

@@ -1,0 +1,55 @@
+{
+  "configs": [
+    "user-auth-implementation.xml",
+    "global.xml",
+    "user-auth-sapi.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:user-auth-sapi:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.3.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedResources": [
+        "log4j2.xml",
+        "global.xml",
+        "application-types.xml",
+        "user-auth-sapi.xml",
+        "config.yaml",
+        "user-auth-implementation.xml",
+        "examples/customerIdType.json",
+        "examples/subscriptionType.json",
+        "examples/createIncident.json",
+        "examples/alertType.json",
+        "examples/customerIdType-1.json",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-trait/1.0.2/customer-trait.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/DelayServicesType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/CustomerIdType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/CustomerAuthDetailsType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/SubscriptionType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/AlertIdType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/UserUpdateType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/SubscriptionIdType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/CustomerAuthType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/AlertsType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/CustomerType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/DataTypes/PasswordType.raml",
+        "api/exchange_modules/eb566cbb-279c-4a2f-bb62-950b9648e62f/customer-library/1.0.10/customer-library.raml",
+        "api/Examples/CustomerAuthExample.raml",
+        "api/Examples/customerExample.raml",
+        "api/Examples/passwordExample.raml",
+        "api/user-auth-sapi.raml",
+        "log.properties",
+        "log4j2-test.xml"
+      ],
+      "includeTestDependencies": "true",
+      "exportedPackages": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/servicenow http://www.mulesoft.org/schema/mule/servicenow/current/mule-servicenow.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+	<flow name="serviceNow-IncidentCreationFlow" doc:id="8d687a9b-a8cf-4a3f-a35f-1e59f70c356f" >
+		<json-logger:logger doc:name="NationalRailwayServicenow_Start" doc:id="b2ac66f2-5af9-4cd8-83e2-aee229154c1e" config-ref="JSON_Logger_Config" message="National Railway Delay Tracker Incident Creation Start"/>
+		<ee:transform doc:name="Transform Message" doc:id="52b90a30-9d01-490d-8d51-c50c46c07ea5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.service-now.com/incident
+---
+{
+	ns0#insert: {
+		caller_id: payload.caller_id,
+		comments: payload.comments,
+		short_description: payload.short_description,
+		state: payload.state
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<servicenow:invoke doc:name="Create Incident" doc:id="9b2bfa5e-4b1c-485b-9303-191284bb3a36" config-ref="ServiceNow_Config" service="incident" operation="insert" showReferenceValues="ALL"/>
+		<ee:transform doc:name="Transform Message" doc:id="2f32b77d-44ee-45b8-adb5-d288d87eed2a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="getIncidentDetails" doc:id="35e41b39-8bd1-4b3a-9c2b-5fdb8b6ab8bc" name="serviceNow-getIncidentFlow"/>
+		<json-logger:logger doc:id="d9a9ce81-f9e0-4d10-84d8-a2aa8c413d60" doc:name="NationalRailwayServiceNow_End" config-ref="JSON_Logger_Config" message="National Railway Delay Tracker Incident Creation End" tracePoint="END"/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="8ca79368-14ff-4024-92fe-6a220f41e026" type="ANY">
+				<ee:transform doc:name="Error Message" doc:id="b7913c58-bd07-40bb-91b4-1c7974a36550" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Error Type": error.errorType.identifier,
+	"Error Message": error.errorMessage.payload,
+	"Error Description": error.detailedDescription
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<json-logger:logger doc:name="ServiceNow_IncidentCreation_ErrorLogger" doc:id="6bbb6ffb-21b4-4498-8cfc-8e8726b3d4b8" config-ref="JSON_Logger_Config" message="ServiceNow IncidentCreation Error Logs"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="serviceNow-getIncidentFlow" doc:id="ce954fd1-84c8-46ce-940c-c3bd6cec3b3b" >
+		<json-logger:logger doc:name="NationalRailwayServicenow_Start" doc:id="4c2487f3-4049-44a0-bd04-9815e08d4611" config-ref="JSON_Logger_Config" message="NationalRailwayServicenow Get Incident Details"/>
+		<ee:transform doc:name="Transform Message" doc:id="4f837ebb-5b26-40b7-92cc-938adaea27f8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.service-now.com/incident
+---
+{
+	ns0#getRecords: {
+		number: payload.body.insertResponse.'number'
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<servicenow:invoke service="incident" operation="getRecords" doc:name="Get IncidentDetails" doc:id="8f87ea56-c739-4415-b792-02930bbfeab0" config-ref="ServiceNow_Config" showReferenceValues="ALL"/>
+		<ee:transform doc:name="Transform Message" doc:id="08fd695c-7684-430b-8c58-35ca1402eb3c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"ErrorDescription": payload.body.getRecordsResponse.getRecordsResult.short_description
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<json-logger:logger doc:name="NationalRailwayServicenow_End" doc:id="5ee0ac74-391d-4d51-a6ba-9756cef9bfe8" config-ref="JSON_Logger_Config" message="NationalRailwayServicenow GetIncident End Logger"/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="36cb15c4-95ce-43e6-80cb-9799141e0cd0" type="ANY">
+				<ee:transform doc:name="Error Message" doc:id="7cc14391-3f8c-4cc7-a2a6-fa55fc9681a3" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Error Type": error.errorType.identifier,
+	"Error Message": error.errorMessage.payload,
+	"Error Description": error.detailedDescription
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<json-logger:logger doc:name="ServiceNow_GetIncident_ErrorLogger" doc:id="90fe3f3d-acb5-4c0c-8fa1-3af9f46f3662" config-ref="JSON_Logger_Config" message="ServiceNow GetIncident Error Logs"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:nationalrailway-servicenow-sapi="http://www.mulesoft.org/schema/mule/nationalrailway-servicenow-sapi" xmlns:national-railway-train-services-api="http://www.mulesoft.org/schema/mule/national-railway-train-services-api"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/national-railway-train-services-api http://www.mulesoft.org/schema/mule/national-railway-train-services-api/current/mule-national-railway-train-services-api.xsd
+http://www.mulesoft.org/schema/mule/nationalrailway-servicenow-sapi http://www.mulesoft.org/schema/mule/nationalrailway-servicenow-sapi/current/mule-nationalrailway-servicenow-sapi.xsd">
+	<json-logger:config name="JSON_Logger_Config" doc:name="JSON Logger Config" doc:id="65b90d12-6dd6-4a64-b530-1c9edb70303e" environment="${mule.env}" />
+	<national-railway-train-services-api:config name="National_Railway_Train_Services_API_Config" doc:name="National Railway Train Services API Config" doc:id="e85cbfe8-07f3-456d-8484-25e841d85f65" property_host="${user.host}" property_port="${user.port}" property_protocol="${user.protocol}" property_basePath="/api" property_responseTimeout="3000000" />
+	<nationalrailway-servicenow-sapi:config name="Nationalrailway_servicenow_sapi_Config" doc:name="Nationalrailway-servicenow-sapi Config" doc:id="3d9974e4-f05d-49c7-bb04-8d748fd7c1c5" property_host="${serviceNow.host}" property_port="${serviceNow.port}" property_protocol="${serviceNow.protocol}" property_basePath="/api" property_responseTimeout="300000" />
+</mule>
